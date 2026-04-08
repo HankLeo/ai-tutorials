@@ -249,7 +249,32 @@ Karpathy 本人的使用方式：
 ## 推荐工具和插件
 
 - **Obsidian Web Clipper**：浏览器扩展，快速把网页文章转成 Markdown 保存到 RawSources
-- **图片本地化**：在 Obsidian 设置中把附件目录设为固定路径，使用 Web Clipper 一键下载文章图片到本地，让 LLM 能直接读图而不依赖外部 URL，这对研究类知识库非常实用
+  
+  ### 配置自定义保存路径和图片本地化
+  
+  官方 Obsidian Web Clipper 可以通过配置实现自定义保存路径和图片本地化，配合我们的 RawSources 目录结构使用：
+  
+  #### 1. 配置默认保存路径为 RawSources/
+  官方 Clipper 是通过模板 (Templates) 来管理保存位置的。
+  - 进入设置：点击浏览器中的 Clipper 图标，点击右上角的齿轮 (Settings)。
+  - 修改模板：在侧边栏点击 Templates，选择你想修改的模板（默认为 Default）。
+  - 设置路径：找到 Note location 字段，输入 `RawSources/`。
+    - 注意：路径是相对于你库 (Vault) 根目录的。如果文件夹不存在，插件会自动创建。
+  
+  #### 2. 开启图片本地化 (Local Images)
+  官方 Clipper 本身目前主要将图片保存为外部链接，以保持文件轻量。要实现图片自动下载到本地，最推荐的方案是配合 Obsidian 插件 **Local Images Plus** 使用
+  
+  ##### 2.1. 配置 Obsidian 附件存放路径
+  首先，确保 Obsidian 知道新下载的图片该往哪放。
+  - 进入 设置 → 文件与链接 (Files & Links)。
+  - 附件默认存放路径 (Default location for new attachments)：选择 "下方指定的文件夹 (In the folder specified below)"。
+  - 附件文件夹路径 (Attachment folder path)：填写 `RawSources/attachments`。
+  
+  ##### 2.2. 配置 Local Images Plus 插件
+  - 使用相对路径 (Use relative paths)：建议开启，这样笔记中的图片链接会显示为 `attachments/image.png`，保持笔记的整洁。
+  
+  配置完成后，每当你用 Web Clipper 保存文章到 RawSources，Local Images Plus 会自动将文章中的外部图片下载到 `RawSources/attachments`，并将链接替换为本地相对路径，让你的笔记完全离线可用，LLM 也能直接读取图片内容。
+
 - **Dataview**：基于元数据做动态查询，方便知识检索
 - **Canvas**：Obsidian 原生支持，可用于创建知识可视化图谱
 - **qmd**（可选）：Wiki 变大后提供更好的全文搜索能力
